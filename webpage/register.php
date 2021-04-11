@@ -1,6 +1,28 @@
-<?php  
-
+<?php
 include('connection.php');
+
+$db = new PDO('mysql:host=localhost;dbname=blog','admin','1234');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+$add_user_stmt= $db->prepare('INSERT INTO users(username, email, password, fullname, dob) VALUES(?,?,?,?,?)');
+
+
+$username="";
+$email="";
+$password="";
+$fullName="";
+$dob="";
+
+if($_SERVER['REQUEST_METHOD']=='POST'){
+    $username=$_REQUEST['username'];
+    $email=$_REQUEST['email'];
+    $password=$_REQUEST['pwd'];
+    $fullName=$_REQUEST['fullName'];
+    $dob=date("Y-m-d");
+    $add_user_stmt->execute(array($username, $email, $password, $fullName,""));
+}
+
+
 
 ?>
 
@@ -23,8 +45,8 @@ include('connection.php');
 						<input type="text" name="username" id="username" required/>
 					</li>
 					<li>
-						<label for="fullname">Full Name</label>
-						<input type="text" name="fullname" id="fullname" required/>
+						<label for="fullName">Full Name</label>
+						<input type="text" name="fullName" id="fullName" required/>
 					</li>
 					<li>
 						<label for="email">Email</label>
